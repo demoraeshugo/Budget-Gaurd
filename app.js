@@ -151,11 +151,11 @@ var UIController = (function() {
       document.querySelector(element).insertAdjacentHTML("beforeend", newHTML);
     },
 
-    deleteListItem: function() {
-
+    deleteListItem: function(selectorID) {
+      
     },
 
-    clearFields: function(selectorID) {
+    clearFields: function() {
       var fields, fieldsArr;
 
       fields = document.querySelectorAll(
