@@ -59,6 +59,22 @@ var budgetController = (function() {
       return newItem;
     },
 
+    deleteItem: function(type, targetID) {
+      var allIDS, index;
+
+      allIDS = data.allItems[type].map(function(current) {
+        return current.id;
+      });
+
+      index = allIDS.indexOf(targetID);
+
+      if (index !== -1) {
+        data.allItems[type].splice(index, 1);
+      }
+
+      console.log(data);
+    },
+
     calculateBudget: function() {
       //Calculate Total income and expenses
       calculateTotal("exp");
@@ -95,6 +111,10 @@ var UIController = (function() {
     inputBtn: ".add__btn",
     incomeContainer: ".income__list",
     expenseContainer: ".expenses__list",
+    budgetLabel: ".budget__value",
+    incomeLabel: ".budget__income--value",
+    expenseLabel: ".budget__expenses--value",
+    percentageLabel: ".budget__expenses--percentage",
     container: ".container"
   };
   return {
@@ -131,7 +151,11 @@ var UIController = (function() {
       document.querySelector(element).insertAdjacentHTML("beforeend", newHTML);
     },
 
-    clearFields: function() {
+    deleteListItem: function() {
+
+    },
+
+    clearFields: function(selectorID) {
       var fields, fieldsArr;
 
       fields = document.querySelectorAll(
@@ -145,6 +169,20 @@ var UIController = (function() {
       });
 
       fieldsArr[0].focus();
+    },
+
+    displayBudget: function(obj) {
+      document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
+      document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalInc;
+      document.querySelector(DOMstrings.expenseLabel).textContent =
+        obj.totalExp;
+
+      if (obj.percentage > 0) {
+        document.querySelector(DOMstrings.percentageLabel).textContent =
+          obj.percentage + "%";
+      } else {
+        document.querySelector(DOMstrings.percentageLabel).textContent = "---";
+      }
     },
 
     getDOMstrings: function() {
@@ -180,7 +218,7 @@ var controller = (function(budgetCtrl, UICtrl) {
     budget = budgetCtrl.getBudget();
 
     //Display the budget on the UI2
-    console.log(budget);
+    UICtrl.displayBudget(budget);
   };
 
   var ctrlAddItem = function() {
@@ -209,15 +247,16 @@ var controller = (function(budgetCtrl, UICtrl) {
   var ctrlDeleteItem = function(event) {
     var itemID, splitID, type, ID;
 
-    itemID = (event.target.parentNode.parentNode.parentNode.parentNode.id);
+    itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
 
-    if(itemID) {
+    if (itemID) {
       splitID = itemID.split("-");
       type = splitID[0];
-      ID = splitID[1];
+      ID = parseInt(splitID[1]);
     }
 
     //1. Delete Item from Data Strucutre
+    budgetController.deleteItem(type, ID);
 
     //2. Delete Item from UI
 
@@ -227,6 +266,12 @@ var controller = (function(budgetCtrl, UICtrl) {
   return {
     init: function() {
       console.log("Application has started.");
+      UICtrl.displayBudget({
+        budget: 0,
+        totalInc: 0,
+        totalExp: 0,
+        percentage: 0
+      });
       setupEventListeners();
     }
   };
