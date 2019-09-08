@@ -5,7 +5,7 @@ var budgetController = (function() {
     this.description = description;
     this.value = value;
   };
-w
+  
   var Income = function(id, description, value) {
     this.id = id;
     this.description = description;
@@ -260,8 +260,10 @@ var controller = (function(budgetCtrl, UICtrl) {
     budgetController.deleteItem(type, ID);
 
     //2. Delete Item from UI
+    UICtrl.deleteListItem(itemID);
 
     //3. Update and show new Budget
+    updateBudget();
   };
 
   return {
