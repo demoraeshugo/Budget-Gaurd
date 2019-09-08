@@ -5,7 +5,7 @@ var budgetController = (function() {
     this.description = description;
     this.value = value;
   };
-
+w
   var Income = function(id, description, value) {
     this.id = id;
     this.description = description;
@@ -152,7 +152,8 @@ var UIController = (function() {
     },
 
     deleteListItem: function(selectorID) {
-      
+      var el = document.getElementById(selectorID);
+      el.parentNode.removeChild(el);
     },
 
     clearFields: function() {
