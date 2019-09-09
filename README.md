@@ -1,4 +1,4 @@
-# Budget-Gaurd
+# Budget-Guard
 Budgeting App Project
 
 This is a Javascript "Budgeting App" that I am working on as part of "The Complete JavaScript Course 2019: Build Real Projects!" Udemy course. 
