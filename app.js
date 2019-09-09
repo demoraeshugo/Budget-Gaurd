@@ -102,19 +102,8 @@ var budgetController = (function() {
     },
 
     calculatePercentages: function() {
-      /*
-      a = 20
-      b = 10
-      c = 40
-
-      income = 100
-
-      p of a = 20/100 = 20%
-      p of b = 10/100 = 10%
-      p of c = 40/100 = 40%
-      */
       data.allItems.exp.forEach(function(cur) {
-        cur.calcPercentage();
+        cur.calcPercentage(data.totals.inc);
       });
     },
 
@@ -267,7 +256,7 @@ var controller = (function(budgetCtrl, UICtrl) {
 
     // 2. Read percentages from the budget controller
     var percentages = budgetCtrl.getPercentages();
-    
+
     // 3. Update the UI with the new percentages
     console.log(percentages);
   }
